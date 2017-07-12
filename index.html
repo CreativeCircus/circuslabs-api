@@ -16,6 +16,8 @@
 			document.write("This example has been run " + data + " times.")
 		})
 
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.warn(jqXHR.responseText);
 	})
 
 	

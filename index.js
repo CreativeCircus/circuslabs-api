@@ -24,7 +24,7 @@ app.get('/data/:name', function (req, res) {
 			console.error("error")
 			res.status(500).send("error")
 		} else if (!item) {
-			res.status(404).send({message: "Could not find data by that name"})
+			res.status(404).send("Could not find data by that name")
 		} else {
 			console.log(item);
 			res.status(200).send(item.content)
@@ -47,10 +47,10 @@ app.post('/data/:name', function (req, res) {
 		}
 	
 		if (!req.body.type) {
-			res.status(400).send({message: "You must provide a data type"});
+			res.status(400).send("You must provide a data type");
 			return;
 		} else if (req.body.type != "number" && req.body.type != "string") {
-			res.status(400).send({message: "You must provide a valid data type of 'string' or 'number' "});
+			res.status(400).send("You must provide a valid data type of 'string' or 'number' ");
 			return;
 		} else if (req.body.type == "number") {
 			// res.send(item.content)
@@ -61,7 +61,7 @@ app.post('/data/:name', function (req, res) {
 				item.content = 0;
 			}
 			if (!req.body.action) {
-				res.status(400).send({message: "For numbers, you must provide an action: '++', '--', '+=', or '=' "});
+				res.status(400).send("For numbers, you must provide an action: '++', '--', '+=', or '=' ");
 				return
 			} else if (req.body.action == "++") {
 				item.content++;
@@ -69,13 +69,13 @@ app.post('/data/:name', function (req, res) {
 				item.content--;
 			} else if (req.body.action == "+=") {
 				if (!req.body.quantity) {
-					res.status(400).send({message: "For numbers, with action '+=', you have to provide a quantity"});
+					res.status(400).send("For numbers, with action '+=', you have to provide a quantity");
 					return
 				}
 				item.content -= -req.body.quantity;
 			} else if (req.body.action == "=") {
 				if (!req.body.quantity) {
-					res.status(400).send({message: "For numbers, with action '=', you have to provide a quantity"});
+					res.status(400).send("For numbers, with action '=', you have to provide a quantity");
 					return
 				}
 				item.content = req.body.quantity;
@@ -84,10 +84,10 @@ app.post('/data/:name', function (req, res) {
 		} else if (req.body.type == "string") {
 			
 			if (!req.body.content) {
-				res.status(400).send({message: "For strings, you have to provide a 'content' property"});
+				res.status(400).send("For strings, you have to provide a 'content' property");
 				return
 			} else if (req.body.content.length > 4096) {
-				res.status(400).send({message: "Strings have a max length of 4096 characters. Yours was " + req.body.content.length + " characters long."});
+				res.status(400).send("Strings have a max length of 4096 characters. Yours was " + req.body.content.length + " characters long.");
 				return
 			}
 			item.content = req.body.content;

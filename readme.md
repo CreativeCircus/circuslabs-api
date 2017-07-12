@@ -18,7 +18,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
 }).done(function(data, textStatus, jqXHR) {
 	console.log(data);
 }).fail(function(jqXHR, textStatus, errorThrown) {
-	console.warn(textStatus);
+	console.warn(jqXHR.responseText);
 })
 ```
 
@@ -70,6 +70,6 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
 }).done(function(data, textStatus, jqXHR) {
 	console.log(data);
 }).fail(function(jqXHR, textStatus, errorThrown) {
-	console.warn(textStatus);
+	console.warn(jqXHR.responseText);
 })
 ```
