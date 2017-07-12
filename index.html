@@ -1,0 +1,22 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+	$.ajax("http://circuslabs.net:3000/data/example-number", {
+		method: "POST",
+		data: {
+			type: "number",
+			action: "++"
+		}
+	}).done(function(data) {
+		console.log("the key 'example-number' was sent to the server with a '++' action")
+
+		$.ajax("http://circuslabs.net:3000/data/example-number").done(function(data) {
+			console.log("requesting key 'example-number' returned", data)
+			document.write("This example has been run " + data + " times.")
+		})
+
+	})
+
+	
+</script>
