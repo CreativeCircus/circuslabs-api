@@ -1,5 +1,10 @@
 # How to use the Circus General Purpose API v1.0.0
 
+## What?!?!
+What's this for? Well, sometimes you need to build a thing, and you only want to worry about the front-end. But if it needs to store data on a server somewhere, you need a back-end right? So what do you do? Well, you send the data to be stored on the Circus general purpose API, of course!
+
+The Circus general purpose API will store whatever string or number you want. Later, you can retrieve or modify that string or number. All via AJAX. 
+
 ## URLs
 Construct your URLs like this:
 `http://circuslabs.net:3000/data/your-key-here`
