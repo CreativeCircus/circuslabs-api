@@ -3,7 +3,7 @@
 ## What?!?!
 What's this for? Well, sometimes you need to build a thing, and you only want to worry about the front-end. But if it needs to store data on a server somewhere, you need a back-end right? So what do you do? Well, you send the data to be stored on the Circus general purpose API, of course!
 
-The Circus general purpose API will store whatever string or number you want. Later, you can retrieve or modify that string or number. All via AJAX. 
+The Circus general purpose API will store whatever string or number you want. Later, you can retrieve or modify that string or number. All via AJAX.
 
 ## URLs
 Construct your URLs like this:
@@ -15,53 +15,53 @@ Do a POST request for the above URL, with a data object describing the data you 
 
 ```javascript
 $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
-	method: "POST",
-	data: {
-		type: "string",
-		content: "Hello World"
-	}
+  method: "POST",
+  data: {
+    type: "string",
+    content: "Hello World"
+  }
 }).done(function(data, textStatus, jqXHR) {
-	console.log(data);
+  console.log(data);
 }).fail(function(jqXHR, textStatus, errorThrown) {
-	console.warn(jqXHR.responseText);
+  console.warn(jqXHR.responseText);
 })
 ```
 
-Inside the data object, you need to specify a `type`. Valid types are `string` and `number`. 
+Inside the data object, you need to specify a `type`. Valid types are `string` and `number`.
 
 If you are storing a `string`, you also need to provide a `content` property, with the string you want to store.
 ```javascript
 {
-	type: "string",
-	content: "Hello World"
+  type: "string",
+  content: "Hello World"
 }
 ```
 
 If you are storing a `number`, you also need to provide an `action` property, with action you want to perform on the number, and sometimes a `quantity` property, with the amount you want to perform said action. See the examples if this doesn't make sense.
 ```javascript
 {
-	type: "number",
-	action: "++" // increases the number by 1
+  type: "number",
+  action: "++" // increases the number by 1
 }
 ```
 ```javascript
 {
-	type: "number",
-	action: "--" // decreases the number by 1
+  type: "number",
+  action: "--" // decreases the number by 1
 }
 ```
 ```javascript
 {
-	type: "number",
-	action: "+=", // increases the number by the quantity below
-	quantity: 5
+  type: "number",
+  action: "+=", // increases the number by the quantity below
+  quantity: 5
 }
 ```
 ```javascript
 {
-	type: "number",
-	action: "=", // sets the number to equal the quantity below
-	quantity: 5
+  type: "number",
+  action: "=", // sets the number to equal the quantity below
+  quantity: 5
 }
 ```
 
@@ -71,10 +71,62 @@ Do a GET request for the above URL, with a data object describing the data you w
 
 ```javascript
 $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
-	method: "GET"
+  method: "GET"
 }).done(function(data, textStatus, jqXHR) {
-	console.log(data);
+  console.log(data);
 }).fail(function(jqXHR, textStatus, errorThrown) {
-	console.warn(jqXHR.responseText);
+  console.warn(jqXHR.responseText);
 })
+```
+
+## Using Fetch instead of jQuery
+
+### GET data from server
+```javascript
+  // key = the key name under which your data is stored
+  fetch("http://circuslabs.net:3000/data/" + key, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => {
+    if (response.status === 200) {
+      return response.text();
+    }
+    return "";
+  })
+  .then(data => {
+    console.log("here is the response data for key:", key, data);
+    }
+  })
+  .catch(function(err) {
+    console.log("error!", err);
+  });
+```
+
+### POST data to server
+
+```javascript
+
+  // key = the key name under which to store your data
+  // value = the value to save (this example assumes a string)
+  let jsonData = {
+    type: "string",
+    content: value
+  };
+  fetch("http://circuslabs.net:3000/data/" + key, {
+    method: "POST",
+    body: JSON.stringify(jsonData),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.text())
+  .then(data => {
+    console.log("here is the saved response data!", data);
+  })
+  .catch(function(err) {
+    console.log("error!", err);
+  });
 ```
