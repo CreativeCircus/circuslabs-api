@@ -84,6 +84,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
 ### GET data from server
 ```javascript
   // key = the key name under which your data is stored
+  let key = 'my-key';
   fetch("http://circuslabs.net:3000/data/" + key, {
     method: "GET",
     headers: {
@@ -92,7 +93,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
   })
   .then(response => {
     if (response.status === 200) {
-      return response.text();
+      return response.json();
     }
     return "";
   })
@@ -111,6 +112,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
 
   // key = the key name under which to store your data
   // value = the value to save (this example assumes a string)
+  let key = 'my-key';
   let jsonData = {
     type: "string",
     content: value
@@ -122,7 +124,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
       "Content-Type": "application/json"
     }
   })
-  .then(response => response.text())
+  .then(response => response.json())
   .then(data => {
     console.log("here is the saved response data!", data);
   })

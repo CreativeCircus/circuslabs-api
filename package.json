@@ -18,10 +18,11 @@
   "homepage": "https://github.com/chrissilich/circuslabs-api#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
     "express": "^4.15.3",
-    "mongoose": "^4.11.1",
-    "cors": "^2.8.3"
+    "mongoose": "^4.11.1"
   },
   "devDependencies": {
+    "standard": "^10.0.3"
   }
 }
