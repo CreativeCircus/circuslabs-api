@@ -102,7 +102,7 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
     }
   })
   .catch(function(err) {
-    console.log("error!", err);
+    console.warn("error!", err);
   });
 ```
 
@@ -129,6 +129,50 @@ $.ajax("http://circuslabs.net:3000/data/example-key-12345", {
     console.log("here is the saved response data!", data);
   })
   .catch(function(err) {
-    console.log("error!", err);
+    console.warn("error!", err);
   });
 ```
+
+
+## Using [Axios](https://github.com/axios/axios)
+
+Axios is a project that simplifies the use of the browser's fetch function while also giving you more flexibility and options. 
+Just include the CDN script tag in your page or site:
+
+```
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
+
+### GET data from server
+```javascript
+  // key = the key name under which your data is stored
+  let key = 'my-key';
+  axios.get("http://circuslabs.net:3000/data/" + key)
+  .then(function (response) {
+    console.log('here is the response data for key:', response);
+  })
+  .catch(function (error) {
+    console.warn('axios encountered an error!', error);
+  }); 
+```
+
+### POST data to server
+
+```javascript
+
+  // key = the key name under which to store your data
+  // value = the value to save (this example assumes a string)
+  let key = 'my-key';
+  let jsonData = {
+    type: "string",
+    content: value
+  };
+  axios.get("http://circuslabs.net:3000/data/" + key, jsonData)
+  .then(function (data) {
+    console.log('here is the saved response data!', data);
+  })
+  .catch(function (error) {
+    console.warn('axios encountered an error!', error);
+  }); 
+```
+
