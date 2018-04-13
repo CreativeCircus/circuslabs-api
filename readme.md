@@ -86,7 +86,7 @@ The below examples organize the code a little better, and handle errors properly
 ### GET data from server (Axios)
 ```javascript
   // key = the key name under which your data is stored
-  let key = 'my-key';
+  let key = 'example-key-12345';
   axios.get('http://circuslabs.net:3000/data/' + key)
   .then(function (responseData) {
     console.log('here is the response data for key:', responseData);
@@ -102,7 +102,7 @@ The below examples organize the code a little better, and handle errors properly
 
   // key = the key name under which to store your data
   // value = the value to save (this example assumes a string)
-  let key = 'my-key';
+  let key = 'example-key-12345';
   let value = 'Hello World!';
   let data = {
     type: 'string',
@@ -121,7 +121,7 @@ The below examples organize the code a little better, and handle errors properly
 ### GET data from server (Native Fetch API)
 ```javascript
   // key = the key name under which your data is stored
-  let key = 'my-key';
+  let key = 'example-key-12345';
   fetch('http://circuslabs.net:3000/data/' + key, {
     method: 'GET',
     headers: {
@@ -148,7 +148,7 @@ The below examples organize the code a little better, and handle errors properly
 
   // key = the key name under which to store your data
   // value = the value to save (this example assumes a string)
-  let key = 'my-key';
+  let key = 'example-key-12345';
   let value = 'Hello World!';
   let data = {
     type: "string",
