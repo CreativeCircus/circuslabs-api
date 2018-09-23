@@ -3,6 +3,10 @@ const bodyParser = require('body-parser')
 var cors = require('cors')
 const app = express()
 
+const APP_NAME = 'Circuslabs General Purpose API'
+const VERSION = '2.0.0'
+const PORT = 3000
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cors())
@@ -10,17 +14,38 @@ app.use(cors())
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/test')
 
-var Item = mongoose.model('Item', { name: String, type: String, content: String })
+var Item = mongoose.model('Item', {
+  name: String,
+  type: String,
+  value: String
+})
 
 var error = function (message) {
-  var output = Object.assign({}, {error: message})
+  var output = Object.assign({status: 'error'}, {message: message})
   return output
 }
 
-var success = function (content, data) {
-  if (!data) { data = {} }
-  var output = Object.assign({}, {content: content}, data)
+var fail = function (message) {
+  var output = Object.assign({status: 'fail'}, {message: message})
   return output
+}
+var success = function (message, data) {
+  var output = Object.assign({status: 'success'})
+  if (message) output = Object.assign(output, {message})
+  if (data) output = Object.assign(output, {data})
+  return output
+}
+
+var stripItemForJSON = function (item) {
+  let stripped = {
+    value: item.value,
+    type: item.type,
+    key: item.name
+  }
+  if (stripped.type === 'number') {
+    stripped.value = parseFloat(stripped.value)
+  }
+  return stripped
 }
 
 app.get('/', function (req, res) {
@@ -29,8 +54,11 @@ app.get('/', function (req, res) {
     'Content-Type': 'application/json'
   })
 
-  res.send(success('Hello World!'))
+  res.send(success(`${APP_NAME}, v${VERSION}, running on port ${PORT}!`))
 })
+
+
+
 
 app.get('/data/:name', function (req, res) {
   res.charset = 'utf-8'
@@ -40,16 +68,18 @@ app.get('/data/:name', function (req, res) {
 
   Item.findOne({ name: req.params.name }, function (err, item) {
     if (err) {
-      console.error('error')
+      console.warn('Error while running mongo findOne')
       res.status(500).send(error('Error occurred!'))
     } else if (!item) {
-      res.status(404).send(error('Could not find data by that name'))
+      res.status(404).send(fail('Could not find data by that name'))
     } else {
-      console.log(item)
-      res.status(200).send(success(item.content))
+      res.status(200).send(success('Found your data!', stripItemForJSON(item)))
     }
   })
 })
+
+
+
 
 app.post('/data/:name', function (req, res) {
   res.charset = 'utf-8'
@@ -68,52 +98,52 @@ app.post('/data/:name', function (req, res) {
       item.name = req.params.name
     }
 
-    if (!req.body.type) {
-      res.status(400).send(error('You must provide a data type'))
-      return
-    } else if (req.body.type !== 'number' && req.body.type !== 'string') {
-      res.status(400).send(error("You must provide a valid data type of 'string' or 'number' "))
+    if (!req.body.type || (req.body.type !== 'number' && req.body.type !== 'string')) {
+      res.status(400).send(fail("You must provide a data type of 'string' or 'number'"))
       return
     } else if (req.body.type === 'number') {
-      if (isNaN(item.content) || !item.content || item.content === 'NaN') {
-        item.content = 0
+      if (isNaN(item.value) || !item.value || item.value === 'NaN') {
+        item.value = 0
       }
       if (!req.body.action) {
-        res.status(400).send(error("For numbers, you must provide an action: '++', '--', '+=', or '=' "))
+        res.status(400).send(fail("For numbers, you must provide an action: '++', '--', '+=', or '=' "))
         return
       } else if (req.body.action === '++') {
-        item.content++
+        item.value++
       } else if (req.body.action === '--') {
-        item.content--
+        item.value--
       } else if (req.body.action === '+=') {
-        if (!req.body.quantity) {
-          res.status(400).send(error("For numbers, with action '+=', you have to provide a quantity"))
+        if (!req.body.value) {
+          res.status(400).send(fail("For numbers, with action '+=', you have to provide a value"))
           return
         }
-        item.content -= -req.body.quantity
+        item.value -= -req.body.value
       } else if (req.body.action === '=') {
-        if (!req.body.quantity) {
-          res.status(400).send(error("For numbers, with action '=', you have to provide a quantity"))
+        if (!req.body.value) {
+          res.status(400).send(fail("For numbers, with action '=', you have to provide a value"))
           return
         }
-        item.content = req.body.quantity
+        item.value = req.body.value
+      } else {
+        res.status(400).send(fail("For numbers, you must provide an action: '++', '--', '+=', or '=' "))
+        return
       }
     } else if (req.body.type === 'string') {
-      if (!req.body.content) {
-        res.status(400).send(error("For strings, you have to provide a 'content' property"))
+      if (!req.body.value) {
+        res.status(400).send(fail("For strings, you have to provide a 'value' property"))
         return
-      } else if (req.body.content.length > 4096) {
-        res.status(400).send(error('Strings have a max length of 4096 characters. Yours was ' + req.body.content.length + ' characters long.'))
+      } else if (req.body.value.length > 4096) {
+        res.status(400).send(fail('Strings have a max length of 4096 characters. Yours was ' + req.body.value.length + ' characters long.'))
         return
       }
-      item.content = req.body.content
+      item.value = req.body.value
     }
-
+    item.type = req.body.type
     item.save()
-    res.send(success(item.content))
+    res.status(200).send(success('Data saved/updated', stripItemForJSON(item)))
   })
 })
 
-app.listen(3000, function () {
-  console.log('API app listening on port 3000!')
+app.listen(PORT, function () {
+  console.log(`${APP_NAME}, v${VERSION}, running on port ${PORT}!`)
 })

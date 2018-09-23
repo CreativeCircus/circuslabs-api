@@ -1,4 +1,4 @@
-# How to use the Circus General Purpose API v1.0.0
+# How to use the Circus General Purpose API v2.0.0
 
 ## What?!?!
 What's this for? Well, sometimes you need to build a thing, but you only want to worry about the front-end. But if it needs to store data on a server somewhere, so that more than one user can submit or retrieve the same data, you need a back-end right? So what do you do? Well, you send the data to be stored on the Circus general purpose API, of course!
@@ -32,7 +32,7 @@ Do a POST request for the above URL, with a data object describing the data you 
 ```javascript
 axios.post('http://circuslabs.net:3000/data/example-key-12345', {
   type: 'string',
-  content: 'Hello World'
+  value: 'Hello World'
 })
 ```
 
@@ -44,7 +44,7 @@ If you are storing a `string`, you also need to provide a `content` property, wi
 ```javascript
 {
   type: 'string',
-  content: 'Hello World'
+  value: 'Hello World'
 }
 ```
 
@@ -65,14 +65,14 @@ If you are storing a `number`, you also need to provide an `action` property, wi
 {
   type: 'number',
   action: '+=', // increases the number by the number in the quantity property. Hint, use a negative number to decrease
-  quantity: 5
+  value: 5
 }
 ```
 ```javascript
 {
   type: 'number',
   action: '=', // sets the number to equal to the number in the quantity property
-  quantity: 5
+  value: 5
 }
 ```
 
@@ -89,7 +89,7 @@ The below examples organize the code a little better, and handle errors properly
   let key = 'example-key-12345';
   axios.get('http://circuslabs.net:3000/data/' + key)
   .then(function (responseData) {
-    console.log('here is the response data for key:', responseData);
+    console.log('here is the response data:', responseData);
   })
   .catch(function (error) {
     console.warn('axios encountered an error!', error);
@@ -106,11 +106,11 @@ The below examples organize the code a little better, and handle errors properly
   let value = 'Hello World!';
   let data = {
     type: 'string',
-    content: value
+    value: value
   };
   axios.post('http://circuslabs.net:3000/data/' + key, data)
   .then(function (responseData) {
-    console.log('here is the saved response data!', responseData);
+    console.log('here is the response data:', responseData);
   })
   .catch(function (error) {
     console.warn('axios encountered an error!', error);
@@ -135,7 +135,7 @@ The below examples organize the code a little better, and handle errors properly
     return '';
   })
   .then(responseData => {
-    console.log('here is the response data for key:', key, responseData);
+    console.log('here is the response data:', key, responseData);
   })
   .catch(function(err) {
     console.warn('error!', err);
@@ -152,7 +152,7 @@ The below examples organize the code a little better, and handle errors properly
   let value = 'Hello World!';
   let data = {
     type: "string",
-    content: value
+    value: value
   };
   fetch('http://circuslabs.net:3000/data/' + key, {
     method: 'POST',
@@ -163,7 +163,7 @@ The below examples organize the code a little better, and handle errors properly
   })
   .then(response => response.json())
   .then(responseData => {
-    console.log('here is the saved response data!', responseData);
+    console.log('here is the saved response data:', responseData);
   })
   .catch(function(err) {
     console.warn('error!', err);
