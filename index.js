@@ -102,7 +102,7 @@ app.post('/data/:name', function (req, res) {
       res.status(400).send(fail("You must provide a data type of 'string' or 'number'"))
       return
     } else if (req.body.type === 'number') {
-      if (isNaN(item.value) || !item.value || item.value === 'NaN') {
+      if (isNaN(item.value) || !item.value || item.value === 'NaN' || item.value === '0') {
         item.value = 0
       }
       if (!req.body.action) {
@@ -113,23 +113,15 @@ app.post('/data/:name', function (req, res) {
       } else if (req.body.action === '--') {
         item.value--
       } else if (req.body.action === '+=') {
-        if (!req.body.value) {
-          res.status(400).send(fail("For numbers, with action '+=', you have to provide a value"))
-          return
-        }
         item.value -= -req.body.value
       } else if (req.body.action === '=') {
-        if (!req.body.value) {
-          res.status(400).send(fail("For numbers, with action '=', you have to provide a value"))
-          return
-        }
         item.value = req.body.value
       } else {
         res.status(400).send(fail("For numbers, you must provide an action: '++', '--', '+=', or '=' "))
         return
       }
     } else if (req.body.type === 'string') {
-      if (!req.body.value) {
+      if (typeof req.body.value !== 'string') {
         res.status(400).send(fail("For strings, you have to provide a 'value' property"))
         return
       } else if (req.body.value.length > 4096) {

@@ -1,4 +1,4 @@
-# How to use the Circus General Purpose API v2.0.0
+# How to use the Circus General Purpose API v2.0.1
 
 ## What?!?!
 What's this for? Well, sometimes you need to build a thing, but you only want to worry about the front-end. But if it needs to store data on a server somewhere, so that more than one user can submit or retrieve the same data, you need a back-end right? So what do you do? Well, you send the data to be stored on the Circus general purpose API, of course!
@@ -48,7 +48,7 @@ If you are storing a `string`, you also need to provide a `content` property, wi
 }
 ```
 
-If you are storing a `number`, you also need to provide an `action` property, with action you want to perform on the number, and sometimes a `quantity` property, with the amount you want to perform said action. See the examples if this doesn't make sense.
+If you are storing a `number`, you also need to provide an `action` property, with action you want to perform on the number, and sometimes a `value` property, with the amount you want to perform said action. See the examples if this doesn't make sense.
 ```javascript
 {
   type: 'number',
@@ -64,14 +64,14 @@ If you are storing a `number`, you also need to provide an `action` property, wi
 ```javascript
 {
   type: 'number',
-  action: '+=', // increases the number by the number in the quantity property. Hint, use a negative number to decrease
+  action: '+=', // increases the number by the number in the value property. Hint, use a negative number to decrease
   value: 5
 }
 ```
 ```javascript
 {
   type: 'number',
-  action: '=', // sets the number to equal to the number in the quantity property
+  action: '=', // sets the number to equal to the number in the value property
   value: 5
 }
 ```

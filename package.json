@@ -1,28 +1,29 @@
 {
-  "name": "circuslabs-api",
-  "version": "1.0.0",
-  "description": "A very simple general purpose API for circus students to toy around with.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chrissilich/circuslabs-api.git"
-  },
-  "author": "Chris Silich",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/chrissilich/circuslabs-api/issues"
-  },
-  "homepage": "https://github.com/chrissilich/circuslabs-api#readme",
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "cors": "^2.8.3",
-    "express": "^4.15.3",
-    "mongoose": "^5.0.14"
-  },
-  "devDependencies": {
-    "standard": "^11.0.1"
-  }
+	"name": "circuslabs-api",
+	"version": "2.0.1",
+	"description": "A very simple general purpose API for circus students to toy around with.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chrissilich/circuslabs-api.git"
+	},
+	"author": "Chris Silich",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/chrissilich/circuslabs-api/issues"
+	},
+	"homepage": "https://github.com/chrissilich/circuslabs-api#readme",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.3",
+		"express": "^4.17.1",
+		"mongoose": "^5.9.1"
+	},
+	"devDependencies": {
+		"forever": "^2.0.0",
+		"standard": "^11.0.1"
+	}
 }
