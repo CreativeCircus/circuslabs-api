@@ -4,7 +4,7 @@ var cors = require('cors')
 const app = express()
 
 const APP_NAME = 'Circuslabs General Purpose API'
-const VERSION = '2.0.0'
+const VERSION = '2.0.1'
 const PORT = 3000
 
 app.use(bodyParser.json())
